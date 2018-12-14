@@ -3,6 +3,7 @@
     package="sdk.af.com.sdkdemo">
 
     <application
+        android:name=".DemoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,6 +17,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".AnotherProcessService"
+            android:process=":another"/>
+
+        <!-- 用于多进程通信的Service
+         <action android:name="com.appsflyer.mainapplication.intent.action.core"/>
+        -->
+        <service android:name="sdk.af.com.sdk.biz.MainProcessService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.appsflyer.mainapplication.intent.action.core"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
