@@ -10,7 +10,5 @@ public class DemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AppsFlyerLib.instance().init().inject(this);
-
-        AppsFlyerLib.instance().sendData("bob wang test data");
     }
 }

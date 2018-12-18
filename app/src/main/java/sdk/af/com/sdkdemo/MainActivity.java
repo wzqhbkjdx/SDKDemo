@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import sdk.af.com.sdk.biz.AppsFlyerLib;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -13,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, AnotherProcessService.class);
         startService(intent);
+
+        AppsFlyerLib.instance().sendSession("custom session");
 
     }
 }

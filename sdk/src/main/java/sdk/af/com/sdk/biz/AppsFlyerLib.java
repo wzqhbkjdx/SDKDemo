@@ -2,6 +2,7 @@ package sdk.af.com.sdk.biz;
 
 import android.content.Context;
 
+import sdk.af.com.sdk.core.CoreImpl;
 import sdk.af.com.sdk.inter.Biz;
 import sdk.af.com.sdk.util.Logger;
 
@@ -50,5 +51,13 @@ public final class AppsFlyerLib {
 
     public void sendData(String data) {
         biz.sendDataToService(data);
+    }
+
+    public void bindServiceLater() {
+        biz.bindServiceLater();
+    }
+
+    public void sendSession(String sessionName) {
+        CoreImpl.instance().runTask(sessionName);
     }
 }

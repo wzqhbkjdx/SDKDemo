@@ -18,18 +18,17 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".AnotherProcessService"
-            android:process=":another"/>
+        <service android:name=".AnotherProcessService" />
 
         <!-- 用于多进程通信的Service
          <action android:name="com.appsflyer.mainapplication.intent.action.core"/>
         -->
-        <service android:name="sdk.af.com.sdk.biz.MainProcessService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.appsflyer.mainapplication.intent.action.core"/>
-            </intent-filter>
-        </service>
+        <!--<service android:name="sdk.af.com.sdk.biz.MainProcessService"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.appsflyer.mainapplication.intent.action.core"/>-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
     </application>
 

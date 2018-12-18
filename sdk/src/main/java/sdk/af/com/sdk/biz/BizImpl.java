@@ -15,6 +15,7 @@ import sdk.af.com.sdk.core.CoreImpl;
 import sdk.af.com.sdk.inter.Biz;
 import sdk.af.com.sdk.inter.Core;
 import sdk.af.com.sdk.util.AFConstants;
+import sdk.af.com.sdk.util.CommonUtil;
 import sdk.af.com.sdk.util.Logger;
 
 final class BizImpl implements Biz {
@@ -25,9 +26,7 @@ final class BizImpl implements Biz {
 
     @Override
     public void init() {
-        if(core == null) {
-            core = new CoreImpl();
-        }
+        core = CoreImpl.instance();
     }
 
 
@@ -45,7 +44,7 @@ final class BizImpl implements Biz {
                 Logger.instance().d(TAG, "service connected");
                 IDataService dataService = IDataService.Stub.asInterface(service);
 
-                if(dataService instanceof MainProcessService.CoreService) {
+                if (dataService instanceof MainProcessService.CoreService) {
                     MainProcessService.CoreService core = (MainProcessService.CoreService) dataService;
                     Logger.instance().d(TAG, "service class name: " + service.getClass().getSimpleName());
                 } else {
@@ -59,15 +58,47 @@ final class BizImpl implements Biz {
             }
         };
 
-//        Intent intent = new Intent(AFConstants.AF_SERVICE_STRING);
-//        String packageName = AppsFlyerLib.instance().getContext().getPackageName();
-//        Logger.instance().d(TAG, "packageName: " + packageName);
-//        intent.setPackage(packageName);
-
-        Intent mIntent=new Intent();//辅助Intent
+        //Intent intent = new Intent(AFConstants.AF_SERVICE_STRING);
+        //String packageName = AppsFlyerLib.instance().getContext().getPackageName();
+        //Logger.instance().d(TAG, "packageName: " + packageName);
+        //intent.setPackage(packageName);
+        Intent mIntent = new Intent();//辅助Intent
         mIntent.setAction(AFConstants.AF_SERVICE_STRING);
-        final Intent serviceIntent = new Intent(getExplicitIntent(AppsFlyerLib.instance().getContext(),mIntent));
+        final Intent serviceIntent = new Intent(getExplicitIntent(AppsFlyerLib.instance().getContext(), mIntent));
         AppsFlyerLib.instance().getContext().bindService(serviceIntent, conn, Context.BIND_AUTO_CREATE);
+
+    }
+
+    @Override
+    public void bindServiceLater() {
+        Logger.instance().d(TAG, "bindServiceLater");
+
+        ServiceConnection conn = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                Logger.instance().d(TAG, "service connected");
+                IDataService dataService = IDataService.Stub.asInterface(service);
+
+                if (dataService instanceof MainProcessService.CoreService) {
+                    MainProcessService.CoreService core = (MainProcessService.CoreService) dataService;
+                    Logger.instance().d(TAG, "service class name: " + service.getClass().getSimpleName());
+                } else {
+                    Logger.instance().d(TAG, "service class name: " + service.getClass().getSimpleName());
+                }
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                Logger.instance().d(TAG, "service disconnected");
+            }
+        };
+
+        if (CommonUtil.getCurrentProcessName(AppsFlyerLib.instance().getContext()).equals("sdk.af.com.sdkdemo:another")) {
+            Intent mIntent = new Intent();//辅助Intent
+            mIntent.setAction(AFConstants.AF_SERVICE_STRING);
+            final Intent serviceIntent = new Intent(getExplicitIntent(AppsFlyerLib.instance().getContext(), mIntent));
+            AppsFlyerLib.instance().getContext().bindService(serviceIntent, conn, Context.BIND_AUTO_CREATE);
+        }
     }
 
 

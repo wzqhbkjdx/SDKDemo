@@ -6,4 +6,6 @@ public interface Biz {
 
     void sendDataToService(String data);
 
+    void bindServiceLater();
+
 }
